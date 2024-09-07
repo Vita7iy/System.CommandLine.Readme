@@ -17,7 +17,7 @@
 		<Summary>System.CommandLine.Readme extension for System.CommandLine library</Summary>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Title>System.CommandLine.Readme</Title>
-		<PackageId>System.CommandLine.Readme</PackageId>
+		<PackageId>CommandLine.Readme</PackageId>
 		<PackageTags>cmd</PackageTags>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
