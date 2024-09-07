@@ -1,0 +1,14 @@
+﻿[*.cs]
+
+# SA0001: Elements should be documented
+dotnet_diagnostic.SA0001.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
+
+# IDE0059: Unnecessary assignment of a value
+dotnet_diagnostic.IDE0059.severity = none

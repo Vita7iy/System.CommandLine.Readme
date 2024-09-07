@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+		<AnalysisLevel>none</AnalysisLevel>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>System.CommandLine.Readme</Title>
+		<AssemblyVersion>0.1.0.0</AssemblyVersion>
+		<FileVersion>0.1.1</FileVersion>
+		<VersionPrefix>0.1.1</VersionPrefix>
+		<VersionSuffix>release</VersionSuffix>
+		<Authors>Vita7y</Authors>
+		<Product>System.CommandLine.Readme</Product>
+		<Description>System.CommandLine.Readme extension for System.CommandLine library</Description>
+		<Copyright>Copyright © Vita7y 2024</Copyright>
+		<Summary>System.CommandLine.Readme extension for System.CommandLine library</Summary>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<Title>System.CommandLine.Readme</Title>
+		<PackageId>System.CommandLine.Readme</PackageId>
+		<PackageTags>cmd</PackageTags>
+		<PackageReadmeFile>Readme.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Include="Readme.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+</Project>
