@@ -9,7 +9,7 @@ namespace System.CommandLine.Readme
     {
         public static string AsHeading(this string text, int level)
         {
-            if (text == null || (level < 0 && level > 6))
+            if (text == null || (level < 0 || level > 6))
             {
                 return string.Empty;
             }

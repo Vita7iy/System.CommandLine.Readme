@@ -28,11 +28,11 @@ namespace System.CommandLine.Readme
         {
             var readmeFileOption = new Option<FileInfo>(
                 name: "--readme-file",
-                description: "The ReadMe file.")
+                description: "The name of the ReadMe file.")
             { IsRequired = true };
             readmeFileOption.AddAlias("-md");
 
-            var readmeCommand = new Command("readme", "Create Readme markdown file")
+            var readmeCommand = new Command("readme", "Create the 'Readme' Markdown file.")
             {
                 readmeFileOption,
             };
