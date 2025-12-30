@@ -1,6 +1,7 @@
 namespace System.CommandLine.Readme.Tests
 {
     using System.CommandLine;
+    using System.CommandLine.Invocation;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace System.CommandLine.Readme.Tests
         public class CreateCommandLineReadmeFile
         {
             [Fact]
-            public async void CreatesReadmeFileAtGivenPath()
+            public void CreatesReadmeFileAtGivenPath()
             {
                 var rootCommand = new RootCommand("Test");
                 rootCommand.AddCommandLineReadmeToRoot();
@@ -20,7 +21,8 @@ namespace System.CommandLine.Readme.Tests
                 try
                 {
                     var args = new[] { "readme", "--readme-file", tempFile };
-                    await rootCommand.InvokeAsync(args);
+                    var result = rootCommand.Parse(args);
+                    result.Invoke();
                     File.Exists(tempFile).Should().BeTrue();
                     var content = File.ReadAllText(tempFile);
                     content.Should().Contain($"# {rootCommand.Name}");
@@ -64,7 +66,10 @@ namespace System.CommandLine.Readme.Tests
             public void IncludesOptionsInReadme()
             {
                 var rootCommand = new RootCommand();
-                var option = new Option<string>("--config", "Config file");
+                var option = new Option<string>("--config")
+                {
+                    Description = "Config file"
+                };
                 rootCommand.Add(option);
                 var result = CreateMarkDown.CreateReadme(rootCommand);
                 result.Should().Contain("--config");
@@ -98,11 +103,17 @@ namespace System.CommandLine.Readme.Tests
             {
                 var rootCommand = new RootCommand("Main app");
                 
-                var option = new Option<bool>("--verbose", "Verbose output");
+                var option = new Option<bool>("--verbose")
+                {
+                    Description = "Enable verbose output"
+                };
                 rootCommand.Add(option);
                 
                 var subcommand = new Command("process", "Process data");
-                var subOption = new Option<string>("--input", "Input file");
+                var subOption = new Option<string>("--input")
+                {
+                    Description = "Input file"
+                };
                 subcommand.Add(subOption);
                 rootCommand.Add(subcommand);
                 
@@ -156,7 +167,10 @@ namespace System.CommandLine.Readme.Tests
                 try
                 {
                     var rootCommand = new RootCommand("Test application");
-                    var option = new Option<string>("--output", "Output file");
+                    var option = new Option<string>("--output")
+                    {
+                        Description = "Output file"
+                    };
                     rootCommand.Add(option);
                     
                     CreateMarkDown.CreateReadmeFile(rootCommand, tempFile);
@@ -264,7 +278,7 @@ namespace System.CommandLine.Readme.Tests
                 rootCommand.AddCommandLineReadmeToRoot();
                 
                 var readmeCommand = rootCommand.Subcommands.First(c => c.Name == "readme");
-                readmeCommand.Options.Should().Contain(o => o.Name == "readme-file");
+                readmeCommand.Options.Should().Contain(o => o.Name == "--readme-file");
             }
 
             [Fact]
@@ -274,8 +288,8 @@ namespace System.CommandLine.Readme.Tests
                 rootCommand.AddCommandLineReadmeToRoot();
                 
                 var readmeCommand = rootCommand.Subcommands.First(c => c.Name == "readme");
-                var option = readmeCommand.Options.FirstOrDefault(o => o.Name == "readme-file");
-                option.IsRequired.Should().BeTrue();
+                var option = readmeCommand.Options.FirstOrDefault(o => o.Name == "--readme-file");
+                option.Required.Should().BeTrue();
             }
 
             [Fact]
@@ -285,7 +299,7 @@ namespace System.CommandLine.Readme.Tests
                 rootCommand.AddCommandLineReadmeToRoot();
                 
                 var readmeCommand = rootCommand.Subcommands.First(c => c.Name == "readme");
-                var option = readmeCommand.Options.First(o => o.Name == "readme-file");
+                var option = readmeCommand.Options.First(o => o.Name == "--readme-file");
                 option.Aliases.Should().Contain("-md");
             }
 
@@ -296,12 +310,12 @@ namespace System.CommandLine.Readme.Tests
                 rootCommand.AddCommandLineReadmeToRoot();
                 
                 var readmeCommand = rootCommand.Subcommands.First(c => c.Name == "readme");
-                var option = readmeCommand.Options.First(o => o.Name == "readme-file");
+                var option = readmeCommand.Options.First(o => o.Name == "--readme-file");
                 option.Description.Should().Be("The name of the ReadMe file.");
             }
 
             [Fact]
-            public async void ReadmeCommandCreatesFileWhenInvoked()
+            public void ReadmeCommandCreatesFileWhenInvoked()
             {
                 var tempFile = Path.GetTempFileName();
                 try
@@ -310,8 +324,8 @@ namespace System.CommandLine.Readme.Tests
                     rootCommand.AddCommandLineReadmeToRoot();
                     
                     var args = new[] { "readme", "--readme-file", tempFile };
-                    await rootCommand.InvokeAsync(args);
-                    
+                    var result = rootCommand.Parse(args);
+                    result.Invoke();
                     File.Exists(tempFile).Should().BeTrue();
                     var content = File.ReadAllText(tempFile);
                     content.Should().Contain($"# {rootCommand.Name}");
@@ -326,7 +340,7 @@ namespace System.CommandLine.Readme.Tests
             }
 
             [Fact]
-            public async void CanUseRmAliasToCreateReadme()
+            public void CanUseRmAliasToCreateReadme()
             {
                 var tempFile = Path.GetTempFileName();
                 try
@@ -335,8 +349,8 @@ namespace System.CommandLine.Readme.Tests
                     rootCommand.AddCommandLineReadmeToRoot();
                     
                     var args = new[] { "rm", "-md", tempFile };
-                    await rootCommand.InvokeAsync(args);
-                    
+                    var result = rootCommand.Parse(args);
+                    result.Invoke();
                     File.Exists(tempFile).Should().BeTrue();
                 }
                 finally
@@ -349,19 +363,23 @@ namespace System.CommandLine.Readme.Tests
             }
 
             [Fact]
-            public async void GeneratesCorrectReadmeContentWhenInvoked()
+            public void GeneratesCorrectReadmeContentWhenInvoked()
             {
                 var tempFile = Path.GetTempFileName();
                 try
                 {
                     var rootCommand = new RootCommand("Test description");
-                    var option = new Option<string>("--config", "Config file");
+                    var option = new Option<string>("config", "--config")
+                    {
+                        Description = "Config file"
+                    };
                     rootCommand.Add(option);
                     rootCommand.AddCommandLineReadmeToRoot();
                     
                     var args = new[] { "readme", "--readme-file", tempFile };
-                    await rootCommand.InvokeAsync(args);
-                    
+                    var result = rootCommand.Parse(args);
+                    result.Invoke();
+                    File.Exists(tempFile).Should().BeTrue();
                     var content = File.ReadAllText(tempFile);
                     content.Should().Contain($"# {rootCommand.Name}");
                     content.Should().Contain("*Test description*");

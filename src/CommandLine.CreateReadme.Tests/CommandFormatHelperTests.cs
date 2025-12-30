@@ -77,7 +77,7 @@ namespace System.CommandLine.Readme.Tests
             public void FormatsCommandsWithAliases()
             {
                 var command = new Command("test", "Test command");
-                command.AddAlias("t");
+                command.Aliases.Add("t");
                 var commands = new[] { command };
                 var result = CommandFormatHelper.FormatCommands(commands, 2);
                 result.Should().Contain("Aliases:");
@@ -100,7 +100,10 @@ namespace System.CommandLine.Readme.Tests
             public void IncludesOptionsWhenPresent()
             {
                 var rootCommand = new RootCommand();
-                var option = new Option<string>("--test", "Test option");
+                var option = new Option<string>("test", "--test")
+                {
+                    Description = "Test option"
+                };
                 rootCommand.Add(option);
                 var result = CommandFormatHelper.FormatRootCommand(rootCommand);
                 result.Should().Contain("options");
@@ -154,18 +157,21 @@ namespace System.CommandLine.Readme.Tests
             public void IncludesAliasesInFormatting()
             {
                 var command = new Command("build", "Build the project");
-                command.AddAlias("b");
-                command.AddAlias("compile");
+                command.Aliases.Add("b");
+                command.Aliases.Add("compile");
                 var result = CommandFormatHelper.FormatCommand(command, 2);
                 result.Should().Contain("Aliases:");
-                result.Should().Contain("`build, b, compile`");
+                result.Should().Contain("`b, compile`");
             }
 
             [Fact]
             public void IncludesOptionsWhenPresent()
             {
                 var command = new Command("build", "Build the project");
-                var option = new Option<bool>("--verbose", "Verbose output");
+                var option = new Option<bool>("--verbose")
+                {
+                    Description = "Verbose output"
+                };
                 command.Add(option);
                 var result = CommandFormatHelper.FormatCommand(command, 2);
                 result.Should().Contain("--verbose");
@@ -227,7 +233,10 @@ namespace System.CommandLine.Readme.Tests
             [Fact]
             public void FormatsOptionWithNameAndDescription()
             {
-                var option = new Option<string>("--output", "Output file");
+                var option = new Option<string>("output", "--output")
+                {
+                    Description = "Output file"
+                };
                 var options = new[] { option };
                 var result = CommandFormatHelper.FormatOptions(options, 2);
                 result.Should().Contain("**output**");
@@ -237,8 +246,11 @@ namespace System.CommandLine.Readme.Tests
             [Fact]
             public void IncludesAliases()
             {
-                var option = new Option<string>("--output", "Output file");
-                option.AddAlias("-o");
+                var option = new Option<string>("output", "--output")
+                {
+                    Description = "Output file"
+                };
+                option.Aliases.Add("-o");
                 var options = new[] { option };
                 var result = CommandFormatHelper.FormatOptions(options, 2);
                 result.Should().Contain("Aliases:");
@@ -250,7 +262,7 @@ namespace System.CommandLine.Readme.Tests
             {
                 var option = new Option<string>("--required")
                 {
-                    IsRequired = true
+                    Required = true
                 };
                 var options = new[] { option };
                 var result = CommandFormatHelper.FormatOptions(options, 2);
@@ -262,7 +274,7 @@ namespace System.CommandLine.Readme.Tests
             {
                 var option = new Option<string>("--optional")
                 {
-                    IsRequired = false
+                    Required = false
                 };
                 var options = new[] { option };
                 var result = CommandFormatHelper.FormatOptions(options, 2);
@@ -347,7 +359,10 @@ namespace System.CommandLine.Readme.Tests
             [Fact]
             public void FormatsSymbolWithNameAndDescription()
             {
-                var option = new Option<string>("--test", "Test option");
+                var option = new Option<string>("test", "--test")
+                {
+                    Description = "Test option"
+                };
                 var symbols = new Symbol[] { option };
                 var result = CommandFormatHelper.FormatSymbols(symbols, 2);
                 result.Should().Contain("test");
@@ -357,8 +372,14 @@ namespace System.CommandLine.Readme.Tests
             [Fact]
             public void FormatsMultipleSymbols()
             {
-                var option1 = new Option<string>("--opt1", "First option");
-                var option2 = new Option<string>("--opt2", "Second option");
+                var option1 = new Option<string>("opt1", "--opt1")
+                {
+                    Description = "First option"
+                };
+                var option2 = new Option<string>("opt2", "--opt2")
+                {
+                    Description = "Second option"
+                };
                 var symbols = new Symbol[] { option1, option2 };
                 var result = CommandFormatHelper.FormatSymbols(symbols, 2);
                 result.Should().Contain("opt1");

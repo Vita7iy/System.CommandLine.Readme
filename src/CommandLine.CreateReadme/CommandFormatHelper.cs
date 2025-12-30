@@ -11,7 +11,7 @@ namespace System.CommandLine.Readme
     {
         private static readonly int RootLevel = 2;
 
-        public static string FormatAliases(IReadOnlyCollection<string> aliases)
+        public static string FormatAliases(ICollection<string> aliases)
         {
             if (aliases.Count == 0)
             {
@@ -23,7 +23,7 @@ namespace System.CommandLine.Readme
             return text.ToString();
         }
 
-        public static string FormatCommands(IReadOnlyCollection<Command> items, int level)
+        public static string FormatCommands(IList<Command> items, int level)
         {
             if (items.Count == 0)
             {
@@ -106,7 +106,7 @@ namespace System.CommandLine.Readme
             return readme.ToString();
         }
 
-        public static string FormatOptions(IReadOnlyCollection<Option> items, int level)
+        public static string FormatOptions(IList<Option> items, int level)
         {
             if (items.Count == 0)
             {
@@ -123,7 +123,7 @@ namespace System.CommandLine.Readme
                     .AddTab(tabs));
                 readme.AppendLine($"Aliases: {FormatAliases(option.Aliases)}\n"
                     .AddTab(tabs + 1));
-                if (option.IsRequired)
+                if (option.Required)
                 {
                     readme.AppendLine($"IsRequired;"
                         .AsBoldAndItalic()

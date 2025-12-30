@@ -26,26 +26,25 @@ namespace System.CommandLine.Readme
 
         public static void AddCommandLineReadmeToRoot(this RootCommand rootCommand)
         {
-            var readmeFileOption = new Option<FileInfo>(
-                name: "--readme-file",
-                description: "The name of the ReadMe file.")
-            { IsRequired = true };
-            readmeFileOption.AddAlias("-md");
+            var readmeFileOption = new Option<FileInfo>(name: "--readme-file", "-md")
+            {
+                Required = true,
+                Description = "The name of the ReadMe file.",
+            };
 
             var readmeCommand = new Command("readme", "Create the 'Readme' Markdown file.")
             {
                 readmeFileOption,
             };
-            readmeCommand.AddAlias("rm");
+            readmeCommand.Aliases.Add("rm");
 
-            readmeCommand.SetHandler(
-                (readmeFile) =>
+            readmeCommand.SetAction(result => 
             {
+                var readmeFile = result.GetValue(readmeFileOption);
                 CreateMarkDown.CreateReadmeFile(rootCommand, readmeFile.FullName);
-            },
-                readmeFileOption);
+            });
 
-            rootCommand.AddCommand(readmeCommand);
+            rootCommand.Add(readmeCommand);
         }
     }
 }
