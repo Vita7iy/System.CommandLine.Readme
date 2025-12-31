@@ -62,26 +62,29 @@ For detailed documentation, examples, and API reference, see the [package README
 
 ```
 System.CommandLine.Readme/
+├── README.md                              # This file
 ├── src/
 │   ├── CommandLine.CreateReadme/          # Main library
 │   │   ├── CreateMarkDown.cs              # Public API
 │   │   ├── CommandFormatHelper.cs         # CLI formatting logic
 │   │   ├── MarkdownFormatHelper.cs        # Markdown utilities
+│   │   ├── Readme.md                      # Package documentation
 │   │   └── System.CommandLine.Readme.csproj
-│   └── CommandLine.CreateReadme.Tests/    # Test suite
-│       ├── CreateMarkDownTests.cs         # README generation tests
-│       ├── CommandFormatHelperTests.cs    # CLI formatting tests
-│       ├── MarkdownFormatHelperTests.cs   # Markdown utility tests
-│       └── System.CommandLine.Readme.Tests.csproj
+│   ├── CommandLine.CreateReadme.Tests/    # Test suite
+│   │   ├── CreateMarkDownTests.cs         # README generation tests
+│   │   ├── CommandFormatHelperTests.cs    # CLI formatting tests
+│   │   ├── MarkdownFormatHelperTests.cs   # Markdown utility tests
+│   │   └── System.CommandLine.Readme.Tests.csproj
+│   └── TEST_SUMMARY.md                    # Detailed test coverage
 ```
 
 ## 🧪 Testing
 
-The library includes a comprehensive test suite with **130+ unit tests**:
+The library includes a comprehensive test suite with **121 unit tests**:
 
 - **82 tests** for markdown formatting helpers
 - **30 tests** for command-line formatting logic
-- **18 tests** for README generation functionality
+- **9 tests** for README generation functionality
 
 Run all tests:
 
@@ -100,8 +103,8 @@ See [TEST_SUMMARY.md](src/TEST_SUMMARY.md) for detailed test coverage informatio
 
 ## 🛠️ Requirements
 
-- **.NET Standard 2.0** or higher (compatible with .NET Framework 4.6.1+, .NET Core 2.0+, .NET 5+, 6+, 7+, 8+)
-- **System.CommandLine** 2.0.0-beta4.22272.1 or compatible
+- **.NET Standard 2.0** or higher (compatible with .NET Framework 4.6.1+, .NET Core 2.0+, .NET 5+, 6+, 7+, 8+, 9+)
+- **System.CommandLine** 2.0.1 or compatible
 
 ## 💡 Example Generated Output
 
@@ -152,7 +155,7 @@ Contributions are welcome! Please follow these guidelines:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Vita7iy/System.CommandLine.Readme.git
 cd System.CommandLine.Readme/src
 
 # Restore dependencies
@@ -178,13 +181,22 @@ Built as an extension for [System.CommandLine](https://github.com/dotnet/command
 
 ## 🔄 Version History
 
-- **0.1.1-release**: Current stable version
+- **1.0.0-release**: Current stable version
   - Comprehensive markdown generation
   - Support for commands, options, arguments
   - Alias documentation
   - Type information display
   - Required flags
-  - 130+ unit tests
+  - 121 unit tests with comprehensive coverage
+  - Updated to System.CommandLine 2.0.1
+
+- **0.2.1-release**: Previous version
+  - Initial stable release
+  - Core markdown generation functionality
+
+- **0.1.1-release**: Initial release
+  - Basic markdown generation
+  - Experimental features
 
 ---
 

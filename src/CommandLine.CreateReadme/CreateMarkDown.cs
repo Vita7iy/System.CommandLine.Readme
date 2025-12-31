@@ -24,6 +24,17 @@ namespace System.CommandLine.Readme
             System.IO.File.WriteAllText(path, readme);
         }
 
+        /// <summary>
+        /// Adds the 'readme' command to the root command to create a ReadMe markdown file.
+        /// <example>
+        /// var rootCommand = new RootCommand("Example application.");
+        /// rootCommand.AddCommandLineReadmeToRoot();
+        ///
+        /// // The following command creates a ReadMe.md file:
+        /// // app.exe readme --readme-file ReadMe.md
+        /// </example>
+        /// </summary>
+        /// <param name="rootCommand">RootCommand.</param>
         public static void AddCommandLineReadmeToRoot(this RootCommand rootCommand)
         {
             var readmeFileOption = new Option<FileInfo>(name: "--readme-file", "-md")
